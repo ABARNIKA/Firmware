@@ -1,0 +1,32 @@
+Multiple Files
+main.c
+#include "stm32f4xx.h"
+int main(void)
+{
+RCC->AHB1ENR |= 1; /* enable GPIOA clock */
+GPIOA->MODER &= ~0x00000C00; /* clear pin mode */
+GPIOA->MODER |=0x00000400; /* set pin to output mode */
+while(1)
+	{
+	led_blink(500);
+	}
+}
+led.c
+#include"stm32f4xx.h"
+void led_blink()
+{
+    GPIOA->ODR |= 0x00000020; /* turn on LED */
+	delayMs(500);
+	GPIOA->ODR &= ~0x00000020; /* turn off LED */
+	delayMs(500);
+}
+void delayMs(int n)
+{
+int i;
+for (; n > 0; n--)
+for (i = 0; i < 3195; i++) ;
+}
+led.h
+#include "stm32f4xx.h"
+void led_blink(int delay_time);
+void delayMs(int n);
